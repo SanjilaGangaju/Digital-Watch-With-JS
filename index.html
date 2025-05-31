@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+             height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(238, 232, 200);
+           
+        }
+        .container{
+            height: 100px;
+            width: 400px;
+            background-color: rgb(152, 135, 122);
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 50% auto;
+          
+        }
+        .time-display{
+            width: 100%;
+            height :100%;
+            border: 2px solid rgb(236, 231, 84);
+            border-radius: 10px;
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="time-display">
+            <p id ="time"></p>
+        </div>
+    </div>
+    <script>
+        const timeDisplay= document.getElementById("time");
+        function fetchTime(){
+            const time= new Date();
+
+            // const hour= time.getHours();
+            // const min=time.getMinutes();
+            // const sec= time.getSeconds();
+            // timeDisplay.textContent=`${hour} : ${min} : ${sec} ${hour>=12 ? "PM" : "AM"}`;
+            // console.log(`${hour} : ${min} : ${sec}`)
+            timeDisplay.innerText= time.toLocaleTimeString();
+            
+        }
+        setInterval(fetchTime, 1000);
+    
+        function setTimer(){
+            
+        };
+    </script>
+</body>
+</html>
