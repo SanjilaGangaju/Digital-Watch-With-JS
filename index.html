@@ -1,69 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        body{
-             height: 40vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgb(238, 232, 200);
-           
-        }
-        .container{
-            height: 100px;
-            width: 400px;
-            background-color: rgb(152, 135, 122);
-            border-radius: 10px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 50% auto;
-          
-        }
-        .time-display{
-            width: 100%;
-            height :100%;
-            border: 2px solid rgb(236, 231, 84);
-            border-radius: 10px;
-            font-size: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      body {
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20% auto;
+        gap: 22px;
+        background-color: rgb(238, 232, 200);
+      }
+      .container {
+        height: 20%;
+        width: auto;
+        background-color: rgb(152, 135, 122);
+        border-radius: 10px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        border: 2px solid rgb(236, 231, 84);
+        
+      }
+      .time-display {
+        width : 100%;
+       
+        border-radius: 10px;
+        font-size: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .stopwatch {
+        height: 50vh;
+        width: 50%;
+        background-color: rgb(224, 228, 211);
+      }
+      .stopwatch .count-down {
+        height: 20%;
+        width: 100%;
+        font-size: 3rem;
+        text-align: center;
+      }
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+      }
+      .buttons button {
+        color: white;
+        background-color: rgb(132, 132, 210);
+        border: none;
+        border-radius: 25px;
+        margin: 5px 10px;
+        padding: 10px;
+        cursor: pointer;
+      }
+      .timer-results{
+        
+        height : 50%;
 
-
-
+        width: 100%;
+      }
+      .result-lists{
+        font-size: 1.3rem;
+        text-align: center;
+        
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="time-display">
-            <p id ="time"></p>
-        </div>
+      <div class="time-display">
+        <p id="time"></p>
+      </div>
+    </div>
+    <div class="stopwatch">
+      <div class="count-down">0</div>
+      <div class="buttons">
+        <button class="func-button start" saria-label="Start the timer">Start</button>
+        <button class="func-button reset">Reset</button>
+        <button class="func-button stop">Stop</button>
+        <button class="func-button gettime">getTime</button>
+        <button class="func-button cleartime">clearTime</button>
+      </div>
+      <div class="timer-results"></div>
     </div>
     <script>
-        const timeDisplay= document.getElementById("time");
-        function fetchTime(){
-            const time= new Date();
+          let countDown = document.querySelector(".count-down");
+          const startButton = document.querySelector(".start");
+          const resetButton = document.querySelector(".reset");
+          const timeDisplay= document.getElementById("time");
+          const stopButton = document.querySelector(".stop");
+          const getButton = document.querySelector(".gettime");
+          const timeResult = document.querySelector(".timer-results");
+          const clearButton= document.querySelector(".cleartime");
+          //fetching time function
+          function fetchTime(){
+              const time= new Date();
+              timeDisplay.innerText= time.toLocaleTimeString();
 
-            // const hour= time.getHours();
-            // const min=time.getMinutes();
-            // const sec= time.getSeconds();
-            // timeDisplay.textContent=`${hour} : ${min} : ${sec} ${hour>=12 ? "PM" : "AM"}`;
-            // console.log(`${hour} : ${min} : ${sec}`)
-            timeDisplay.innerText= time.toLocaleTimeString();
+          }
+          setInterval(fetchTime, 1000);
+
+      //timerstart functin
+      let startCount=0;
+      let intervalId;
+      
+            function startTimer(){
+                if (intervalId) return;
+                intervalId = setInterval(()=>{
+                      countDown.innerText=startCount++;
+                    },1000);
+            };
+        
+        // stop function
+           function stopTimer(){
+             clearInterval(intervalId);
+             getTime();
+             countDown.innerText=startCount;
             
-        }
-        setInterval(fetchTime, 1000);
-    
-        function setTimer(){
+           }; 
+ 
+      //reset function 
+     
+          function resetTimer(){
+           startCount = 0; 
+           countDown.innerText= startCount;
+           clearInterval(intervalId);
             
-        };
-    </script>
-</body>
+             
+
+          };
+        
+          //geting the current count
+          function getTime(){
+          
+            console.log(`the stop time is ${startCount}`);
+            const li = document.createElement("p");
+            li.textContent=`The stop time is : ${startCount}`;
+            li.classList.add('result-lists');
+            timeResult.append(li);
+           
+           
+          }
+          //clear result
+          function clearResult(){
+                timeResult.innerHTML="";
+          }
+
+        startButton.addEventListener('click', startTimer);
+        resetButton.addEventListener('click', resetTimer);
+        stopButton.addEventListener('click', stopTimer);
+        getButton.addEventListener('click',getTime);
+        clearButton.addEventListener('click', clearResult )
+;    </script>
+  </body>
 </html>
